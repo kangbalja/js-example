@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="swiper.css">
+
+    <script src="swiper.min.js"></script>
+    <script src="TweenMax.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+  <style>
+    button {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+    }
+
+    .visionAreaBg{position:absolute; top:0; right:-100%; width:610px; height:100%; background:url("http://company.gsshop.com/common/images/section2_bg.gif") repeat-y right 0;}
+    .visionArea{position:relative; z-index:2; margin:345px 0 0 /*240px*/0;}
+    .visionArea .txtArea{display:inline-block; position:relative; left:-100%; z-index:2; transition:all 1.2s ease; transition-delay:0.4s}
+    .visionArea .txtArea.on{left:240px}
+    .visionArea .title{font-size:30px; line-height:22px; color:#b1c712; font-family:'Metropolis-Bold','Noto Sans KR'; font-weight:700; letter-spacing:0.5px; }
+    .visionArea .title span{display:block}
+    .visionArea .mTxt{position:absolute; top:50px; left:0; width:760px; font-size:90px; color:#222; font-family:'Metropolis-ExtraBold','Noto Sans KR'; font-weight:700; transition:top 0.6s cubic-bezier(.11,.24,.26,1), width 0.6s cubic-bezier(.11,.24,.26,1), font-size 0.6s cubic-bezier(.11,.24,.26,1), color 0.6s cubic-bezier(.11,.24,.26,1); letter-spacing:0}
+    .visionArea .mTxt.active{top:-65px; left:-10px; width:1060px; font-size:140px; color:#eee;}
+    .visionArea .txt{padding-top:165px; font-size:20px; color:#555; font-family:'Metropolis-Regular','Noto Sans KR'; font-weight:400; line-height:30px;}
+    .visionArea .btnMore{display:inline-block; margin-top:140px; padding-bottom:1px; font-size:20px; color:#222; font-family:'Metropolis-Bold','Noto Sans KR'; font-weight:700; border-bottom:2px solid #222; transition:all 0.2s ease-out; letter-spacing:-2px}
+    .visionArea .btnMore:hover{color:#b1c712; border-bottom:2px solid #b1c712}
+    .visionArea .swipeArea{position:absolute; top:35px; left:0;}
+    .visionArea .swipeArea .swiper-button-prev{display:none; margin-top:0; top:120px; left:50px; z-index:3; width:120px; height:120px; background:url("http://company.gsshop.com/common/images/main_vision_leftBtn.png") no-repeat center rgba(0, 0, 0, 0.5); border-radius:100%}
+    .visionArea .swipeArea .swiper-button-next{display:none; margin-top:0; top:120px; left:1300px; z-index:3; width:120px; height:120px; background:url("http://company.gsshop.com/common/images/main_vision_rightBtn.png") no-repeat center rgba(0, 0, 0, 0.5); border-radius:100%}
+    .visionArea .swipeArea .swiper-button-prev:focus, .visionArea .swipeArea .swiper-button-next:focus{outline:none}
+    .visionArea .swipeArea .swiper-container{padding:0 300px 0 770px; right:0; transition:all 1.2s ease; transition-delay:0.8s}
+    .visionArea .swipeArea .swiper-container-horizontal > .swiper-pagination-progressbar{top:auto; bottom:0; left:240px; width:calc(100vw - 770px); height:6px;}
+    .visionArea .swipeArea .swiper-pagination-progressbar{height:6px; background:rgba(0,0,0,0.2);}
+    .visionArea .swipeArea .swiper-pagination-progressbar .swiper-pagination-progressbar-fill{background:#b1c712;}
+    .swiper-button-prev.swiper-button-disabled{background:url("http://company.gsshop.com/common/images/main_vision_leftBtn.png") no-repeat center rgba(0, 0, 0, 0.15)}
+    .swiper-button-next.swiper-button-disabled{background:url("http://company.gsshop.com/common/images/main_vision_rightBtn.png") no-repeat center rgba(0, 0, 0, 0.15)}
+    .visionArea .swipeArea .swiper-slide{display:block; left:1500px; width:500px !important; height:375px;}
+    .visionArea .swipeArea .swiper-slide .imgBox{position:relative; width:100%; height:100%; overflow:hidden;}
+    .visionArea .swipeArea .swiper-slide .imgBox img{transform:translate(-50%, -50%); height:100%; position:absolute; top:50%; left:50%}
+    .visionArea .swipeArea .swiper-slide .imgBox:before{content:''; display:block; position:absolute; top:0; left:0; width:100%; height:100%; background:url('http://company.gsshop.com/common/images/main_vision_roll_bg.png') no-repeat center; background-size:cover; z-index:1}
+    .visionArea .swipeArea .swiper-slide .hover{display:block; position:absolute; top:230px; left:0; z-index:1; padding:50px 50px 70px; width:430px; background:none; transition:all 0.3s ease-out; z-index:2}
+    .visionArea .swipeArea .swiper-slide .hover .type{font-family:'Metropolis-Medium','Noto Sans KR'; font-weight:500; font-size:16px; color:#b1c712; opacity:0; transition:all 0.3s ease-out;}
+    .visionArea .swipeArea .swiper-slide .hover .tit{position:relative; margin-top:0; font-size:25px; color:#fff; font-family:'Metropolis-Bold','Noto Sans KR'; font-weight:700; line-height:32px; transition:all 0.3s ease-out;}
+    .visionArea .swipeArea .swiper-slide .hover .txt1{opacity:0; position:relative; top:40px; padding-top:0; font-size:18px; line-height:26px; color:rgba(34, 34, 34, 0.7); font-family:'Metropolis-Regular','Noto Sans KR'; font-weight:400; padding-bottom:52px; background:url("http://company.gsshop.com/common/images/main_ir_arrowIcon2.png") no-repeat 0 bottom; transition:all 0.3s ease-out;}
+    .visionArea .swipeArea .swiper-slide .hover.on{top:195px; box-shadow:10px 10px 30px 0px rgba(0,0,0,0.1); background:#fff;}
+    .visionArea .swipeArea .swiper-slide .hover.on .type{opacity:1}
+    .visionArea .swipeArea .swiper-slide .hover.on .tit{margin-top:20px; margin-top:0; color:#222;}
+    .visionArea .swipeArea .swiper-slide .hover.on .txt1{opacity:1; top:22px;}
+  </style>
+</head>
+<body>
+
+    <button id="start">시작</button>
+
+    <div class="visionArea">
+        <div class="txtArea">
+            <h2 class="title">Designing Life Together</h2>
+            <p class="mTxt">
+                INSIDE STORY
+            </p>
+            <p class="txt">
+                고객을 위해 다양한 혁신을 시도하는 <br>
+                GS SHOP의 이야기를 소개합니다
+            </p>
+            <a href="#" class="btnMore">더보기</a>
+        </div>
+        <div class="swipeArea">
+            <div class="swiper-container" style="padding-bottom: 1305px; width: 2062px;">
+                <div class="swiper-wrapper">
+                    <a href="#" class="swiper-slide">
+                            <div class="hover">
+                                <p class="tit">GS SHOPX중소기업, 수출길따라 지구 2바퀴!</p>
+                                <p class="txt1">
+                                    중소기업과 함께하는 동반성장 프로젝트, '동남아 홈쇼핑 시장 개척단'을 소개합니다.</p>
+                            </div>
+                            <div class="imgBox">
+                                <img src="http://company.gsshop.com/image/2019/12/201912260939576460.jpg" alt="썸네일">
+                            </div>
+                        </a>
+                    <a href="#" class="swiper-slide">
+                            <div class="hover">
+                                <p class="tit">'서문래 프로젝트'에 묻고, 답하다</p>
+                                <p class="txt1">
+                                    기술 트렌드 공유부터 선진 기업의 일하는 방식까지 다양하게 소개하는 GS SHOP의 대표 밋업(Meetup) '서문래프로젝트'</p>
+                            </div>
+                            <div class="imgBox">
+                                <img src="http://company.gsshop.com/image/2019/12/201912050312169740.jpg" alt="썸네일">
+                            </div>
+                        </a>
+                    <a href="#" class="swiper-slide">
+                            <div class="hover">
+                                <p class="tit">요즘 홈쇼핑에서 핫하다는 '달달마켓' 탄생 스토리</p>
+                                <p class="txt1">
+                                    고객이 무엇을 불편해할까 생각하다보니 '달달마켓'이 탄생했습니다</p>
+                            </div>
+                            <div class="imgBox">
+                                <img src="http://company.gsshop.com/image/2019/11/201911050249263350.jpg" alt="썸네일">
+                            </div>
+                        </a>
+                    <a href="#" class="swiper-slide">
+                            <div class="hover">
+                                <p class="tit">아주 특별한 오픈 이노베이션 축제, GS SHOP 해커톤</p>
+                                <p class="txt1">
+                                    해커들의 열정과 아이디어가 하이파이브!! 5회째를 맞은 GS SHOP 해커톤을 소개합니다</p>
+                            </div>
+                            <div class="imgBox">
+                                <img src="http://company.gsshop.com/image/2019/10/201910160521057140.jpg" alt="썸네일">
+                            </div>
+                        </a>
+                    </div>
+                <div class="swiper-pagination"></div>
+            </div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next" style="left: 1300px;"></div>
+        </div>
+    </div>
+    <div class="visionAreaBg"></div>
+    
+
+    <script>
+
+        $("#start").click(function() {
+
+            $(".visionArea .txtArea").addClass("on");
+
+            TweenMax.to($(".visionAreaBg"), 2, {right:0, ease:Power3.easeOut});
+
+            $(".visionArea .swipeArea .swiper-slide").each(function (q) {
+                TweenMax.to($(".visionArea .swipeArea .swiper-slide").eq(q), 1, {delay:0.15*q + 1, left:0, ease:Power2.easeOut});
+            });
+
+            TweenMax.to($(".visionArea .swipeArea .swiper-button-prev, .visionArea .swipeArea .swiper-button-next"), 0, {display:"block", delay:2, ease:Power3.easeOut});
+
+            var visionSwipe = new Swiper('.visionArea .swiper-container', {
+                slidesPerView : 2,
+                spaceBetween : 30,
+                observer : true,
+                observeParents : true,
+                // centeredSlides : true,
+                navigation: {
+                    nextEl: '.visionArea .swiper-button-next',
+                    prevEl: '.visionArea .swiper-button-prev',
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    type : 'progressbar',
+                },
+                breakpoints: {
+                    1280: {
+
+                    },
+                    768: {
+
+                    },
+                    500: {
+                        spaceBetween : 15,
+                    }
+                },
+                on : {
+                    slideChange : function () {
+                        if(visionSwipe.activeIndex != 0) {
+                            TweenMax.to($(".visionArea .title"), 0.5, {opacity:0, ease:Power3.easeOut});
+                            $(".visionArea .swipeArea").css("z-index", 2);
+                            $(".visionArea .mTxt").addClass("active");
+                        } else {
+                            TweenMax.to($(".visionArea .title"), 0.5, {opacity:1, ease:Power3.easeOut});
+                            $(".visionArea .txt").stop(true, true).fadeIn(300);
+                            $(".visionArea .btnMore").stop(true, true).fadeIn(300);
+                            $(".visionArea .swipeArea").css("z-index", 0);
+                            $(".visionArea .mTxt").removeClass("active");
+                        }
+                    },
+					transitionEnd : function(){
+						
+					}
+                }
+            });
+
+            $(".visionArea .swipeArea .swiper-slide").each(function(q){
+                $(this).hover(function () {
+                    $(this).find(".hover").addClass("on");
+                }, function () {
+                    $(this).find(".hover").removeClass("on");
+                })
+            });
+        });
+        
+
+    </script>
+</body>
+</html>
